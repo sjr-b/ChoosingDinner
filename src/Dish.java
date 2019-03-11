@@ -1,15 +1,17 @@
 public class Dish {
 
     String name;
-    String [] tags;
-    int preparationTime;
-    String time; // this is for holiday and season-appropriate food
     String [] ingredients;
+    int preparationTime;
+    String [] tags;
+    String seasonRequirements; // this is for holiday and season-appropriate food
 
-    public Dish(String[] tags, int preparationTime, String time, String[] ingredients) {
-        this.tags = tags;
-        this.preparationTime = preparationTime;
-        this.time = time;
+    public Dish(String name, String[] ingredients, int preparationTime, String[] tags, String seasonRequirements) {
+        this.name = name;
         this.ingredients = ingredients;
+        this.preparationTime = preparationTime;
+        this.tags = tags;
+        this.seasonRequirements = seasonRequirements;
     }
+
 }
