@@ -7,15 +7,17 @@ public class Dish {
     int preparationTime;
     String [] tags;
     String seasonRequirements; // this is for holiday and season-appropriate food
+    int [] day;
     static int dishQuantity = 0;
-    static ArrayList<Dish> dishes = new ArrayList<Dish>();
+    static ArrayList<Dish> dishes = new ArrayList<>();
 
-    public Dish(String name, String[] ingredients, int preparationTime, String[] tags, String seasonRequirements) {
+    public Dish(String name, String[] ingredients, int preparationTime, String[] tags, String seasonRequirements, int [] day) {
         this.name = name;
         this.ingredients = ingredients;
         this.preparationTime = preparationTime;
         this.tags = tags;
         this.seasonRequirements = seasonRequirements;
+        this.day = day;
         dishQuantity++;
         dishes.add(this);
     }
@@ -24,8 +26,13 @@ public class Dish {
         return this.name;
     }
 
-    public String[] getIngredients() {
-        return this.ingredients;
+    public String getIngredients() {
+        String ingredientList = "";
+        for (int a = 0; a < this.ingredients.length; a++){
+            ingredientList += this.ingredients[a] + ", ";
+        }
+        ingredientList = ingredientList.substring(0, ingredientList.length() - 2);
+        return ingredientList;
     }
 
     public int getPreparationTime() {
