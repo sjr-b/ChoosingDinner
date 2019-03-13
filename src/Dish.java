@@ -21,19 +21,28 @@ public class Dish {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String[] getIngredients() {
-        return ingredients;
+        return this.ingredients;
     }
 
     public int getPreparationTime() {
-        return preparationTime;
+        return this.preparationTime;
     }
 
-    public String[] getTags() {
-        return tags;
+    public String getTags() {
+        String result = "";
+        for (int a = 0; a < this.tags.length; a++){
+            if (tags[a] != ""){
+                result += tags[a] + ", ";
+            } else {
+                result += "none, ";
+            }
+        }
+        result = result.substring(0, result.length() - 2);
+        return result;
     }
 
     public void setTags(String[] tags) {
@@ -41,7 +50,7 @@ public class Dish {
     }
 
     public String getSeasonRequirements() {
-        return seasonRequirements;
+        return this.seasonRequirements;
     }
 
     public static int getDishQuantity() {
