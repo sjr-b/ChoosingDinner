@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Choice {
 
     Dish [] previousThree;
@@ -24,8 +26,9 @@ public class Choice {
     }
 
     public String chooseDish(){
-        String choice = "";
-        return choice;
+        int choice = new Random().nextInt(Dish.dishQuantity);
+        String choiceName = "";
+        return choiceName;
     }
 
     public String listDishes(){
