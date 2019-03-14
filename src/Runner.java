@@ -38,6 +38,9 @@ public class Runner {
         int [] haggisDate = {11, 30};
         Dish haggis = new Dish("Haggis", haggisIngredients, 40, haggisTags, "none", haggisDate);
 
+        System.out.println(Calendar.getInstance().get(Calendar.MONTH));
+        System.out.println(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        System.out.println("");
         Scanner sc = new Scanner(System.in);
         System.out.println("This is a program designed to help you choose what to have for dinner. Here are some options for what you can do at this time:");
         System.out.println("1. Choose a completely random meal.");
