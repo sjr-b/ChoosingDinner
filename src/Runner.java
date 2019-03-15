@@ -37,6 +37,9 @@ public class Runner {
         String [] haggisTags = {""};
         int [] haggisDate = {11, 30};
         Dish haggis = new Dish("Haggis", haggisIngredients, 40, haggisTags, "none", haggisDate);
+        String [] collegeSaladIngredients = {"lettuce", "olive oil", "dill", "salt", "pepper"};
+        String [] collegeSaladTags = {"favorite"};
+        Dish collegeSalad = new Dish("Purple salad", collegeSaladIngredients, 15, collegeSaladTags, "none", null);
 
         System.out.println(Calendar.getInstance().get(Calendar.MONTH));
         System.out.println(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));

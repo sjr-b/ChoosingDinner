@@ -50,15 +50,12 @@ public class Choice {
         options = removeUnwanted(options, ingredient2);
         options = removeUnwanted(options, ingredient3);
         int choiceSelection = new Random().nextInt(options.size());
-        while (Dish.dishes.get(choiceSelection).day[0] == Calendar.getInstance().get(Calendar.MONTH)
-                && Dish.dishes.get(choiceSelection).day[1] == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-                || Dish.dishes.get(choiceSelection).seasonRequirements == seasonCheck()){ // WORK ON SEASON CHECK!
+        while (timeCheck(options.get(choiceSelection)) == false){ // WORK ON SEASON CHECK!
             choiceSelection = new Random().nextInt(Dish.dishQuantity);
         }
-        String choiceInfo = "Your dish is " + Dish.dishes.get(choiceSelection).name
-                + ". This dish is made of " + Dish.dishes.get(choiceSelection).getIngredients()
-                + ", and requires " + Dish.dishes.get(choiceSelection).getPreparationTime() + " to cook.";
-        /* keep going here */
+        String choiceInfo = "Your dish is: " + Dish.dishes.get(choiceSelection).name
+                + " || This dish is made of: " + Dish.dishes.get(choiceSelection).getIngredients()
+                + " || This dish requires " + Dish.dishes.get(choiceSelection).getPreparationTime() + " minutes to cook.";
         return choiceInfo;
     }
 
@@ -75,7 +72,8 @@ public class Choice {
     }
 
     public ArrayList<Dish> removeUnwanted(ArrayList<Dish> options, String necessary){
-        if (necessary != "no") {
+        String result = necessary;
+        if (result != "no" == false) {
             for (int a = 0; a < options.size(); a++){
                 if (Arrays.asList(options.get(a).tags).contains(necessary) == false){
                     options.remove(a);
@@ -87,12 +85,26 @@ public class Choice {
     }
 
     public String seasonCheck(){
-        String season = "";
         int [] today = {Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH)};
         if (today[0] < 2 || today[0] == 11 && today[1] >= 21 || today[0] == 2 && today[1] < 20){ // complete months of winter, first half of winter, second half
-            season = "winter";
-        } // spring: complete, first, second
-        return season;
+            return "winter";
+        } else if (today[0] == 3 || today[0] == 4 || today[0] == 2 && today[1] >= 20 || today[0] == 5 && today[1] < 21){
+            return "spring";
+        } else if (today[0] == 6 || today[0] == 7 || today[0] == 5 && today[1] >= 21 || today[0] == 8 && today[1] < 22){
+            return "summer";
+        } else {
+            return "fall";
+        }
+    }
+
+    public boolean timeCheck(Dish meal){
+        if (meal.day != null && meal.day[0] != Calendar.getInstance().get(Calendar.MONTH) && meal.day[1] != Calendar.getInstance().get(Calendar.DAY_OF_MONTH)){
+            return false;
+        }
+        if (meal.seasonRequirements != "none" && meal.seasonRequirements != seasonCheck()){
+            return false;
+        }
+        return true;
     }
 
 }
