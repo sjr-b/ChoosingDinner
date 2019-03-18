@@ -7,13 +7,15 @@ import java.util.Random;
 public class Choice {
 
     Dish [] previousThree;
+    boolean ableToDoMore;
 
     public Choice() {
         this.previousThree = new Dish [3];
+        this.ableToDoMore = true;
     }
 
     public String executeChoice(int option){
-        if (option == 1){
+        if (option == 1){ // choose a meal
             Scanner sc = new Scanner(System.in);
             System.out.println("Are there a tag that you would like to use? If so, please type the tag below. If not," +
                     " simply type 'no'.");
@@ -28,15 +30,55 @@ public class Choice {
             String ingredient2 = sc.nextLine();
             String ingredient3 = sc.nextLine();
             return chooseDish(tag, ingredient1, ingredient2, ingredient3);
-        } else if (option == 2){
+        } else if (option == 2){ // list options
             return listDishes();
-        } else if (option == 3){
+        } else if (option == 3){ // add a dish
+            Scanner sc = new Scanner(System.in);
+            System.out.println("What do you want to name your dish?");
+            String name = sc.nextLine();
+            System.out.println("How many ingredients does it take to make this dish?");
+            int ingredientAmount = sc.nextInt();
+            String [] ingredientList = new String [ingredientAmount+1];
+            System.out.println("Please write down all of the ingredients in singular form and in lower case (so instead of saying " +
+                    "'Potatoes', say 'potato'). After each ingredient, hit enter, and then type in the next ingredient.");
+            for (int a = 0; a <= ingredientAmount; a++){
+                String ingredient = sc.nextLine();
+                ingredientList[a] = ingredient;
+            }
+            // HERE, FIX THE PROBLEM OF HAVING NOTHING AT INGREDIENTLIST[0]
+            System.out.println("How long does it take to cook this dish?");
+            int time = sc.nextInt();
+            System.out.println("How many tags do you want to add to this dish? Please only respond with a number.");
+            int tagNumber = sc.nextInt();
+            String [] tags = {};
+            for (int b = 0; b < tagNumber; b++){
+                System.out.println("Please input a tag that you want to be attatched to this dish.");
+                tags[b] = sc.nextLine();
+            }
+            System.out.println("Are there any seasonal requirements for this dish? Can it only be cooked during a " +
+                    "particular season? If so, type the name of that season (winter, spring, summer, fall). If not, just hit enter.");
+            String season = sc.nextLine();
+            System.out.println("Can this dish only be eaten on a certain day? If so, say yes. If not, say no.");
+            String dayRequirementConfirm = sc.nextLine();
+            int [] day = {2};
+            if (dayRequirementConfirm.equals("yes")){
+                System.out.println("What is the number of the month? Please remember to start counting at 0. So 0 is " +
+                        "January, 1 is February, etc.");
+                day[0] = sc.nextInt();
+                System.out.println("What is the day? You don't have to start the counting from zero on this one.");
+                day[1] = sc.nextInt();
+            } else {
+                day = null;
+            }
+            Dish newDish = new Dish(name, ingredientList, time, tags, season, day);
+            return "Your dish '" + name + "' has been added to the list of options!";
+        } else if (option == 4){ // remove a dish
 
-        } else if (option == 4){
+        } else if (option == 5){ // add a tag to a dish
 
-        } else if (option == 5){
+        } else if (option == 6){ // input last three meals
 
-        } else if (option == 6){
+        } else if (option == 7){ // end the program
 
         }
         return "Oops! Something went wrong. Please make sure that you only inputted one digit, " +
@@ -71,11 +113,15 @@ public class Choice {
         return result;
     }
 
+    public String createDish(){
+        String informUser = "You have created ";
+        return informUser;
+    }
+
     public ArrayList<Dish> removeUnwanted(ArrayList<Dish> options, String necessary){
-        String result = necessary;
-        if (result != "no" == false) {
+        if (necessary.equals("no") == false) {
             for (int a = 0; a < options.size(); a++){
-                if (Arrays.asList(options.get(a).tags).contains(necessary) == false){
+                if (Arrays.asList(options.get(a).tags).contains(necessary) == false && Arrays.asList(options.get(a).ingredients).contains(necessary) == false){
                     options.remove(a);
                     a--;
                 }

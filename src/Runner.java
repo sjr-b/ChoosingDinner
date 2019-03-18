@@ -45,17 +45,19 @@ public class Runner {
         System.out.println(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         System.out.println("");
         Scanner sc = new Scanner(System.in);
+        Choice ch = new Choice();
         System.out.println("This is a program designed to help you choose what to have for dinner. Here are some options for what you can do at this time:");
         System.out.println("1. Choose a completely random meal.");
         System.out.println("2. List the available meals.");
         System.out.println("3. Add a meal.");
-        System.out.println("4. Add a tag to one of the existing meals.");
-        System.out.println("5. Input what you've had for dinner in the past three days.");
-        System.out.println("6. Quit program.");
+        System.out.println("4. Remove a meal.");
+        System.out.println("5. Add a tag to one of the existing meals.");
+        System.out.println("6. Input what you've had for dinner in the past three days.");
+        System.out.println("7. Quit program.");
         System.out.println("Please input the appropriate number for which option you would like to continue with.");
         int option = sc.nextInt();
-        Choice ch = new Choice();
-        System.out.println(ch.executeChoice(option));
+        ch.executeChoice(option);
+        //System.out.println(ch.executeChoice(option));
     }
 
 }
