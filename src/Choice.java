@@ -38,29 +38,34 @@ public class Choice {
             String name = sc.nextLine();
             System.out.println("How many ingredients does it take to make this dish?");
             int ingredientAmount = sc.nextInt();
-            String [] ingredientList = new String [ingredientAmount+1];
+            String [] temporaryList = new String [ingredientAmount+1];
             System.out.println("Please write down all of the ingredients in singular form and in lower case (so instead of saying " +
                     "'Potatoes', say 'potato'). After each ingredient, hit enter, and then type in the next ingredient.");
             for (int a = 0; a <= ingredientAmount; a++){
-                String ingredient = sc.nextLine();
-                ingredientList[a] = ingredient;
+                temporaryList[a] = sc.nextLine();
             }
-            // HERE, FIX THE PROBLEM OF HAVING NOTHING AT INGREDIENTLIST[0]
+            String [] ingredientList = removeZeroPosition(temporaryList);
             System.out.println("How long does it take to cook this dish?");
             int time = sc.nextInt();
             System.out.println("How many tags do you want to add to this dish? Please only respond with a number.");
             int tagNumber = sc.nextInt();
-            String [] tags = {};
-            for (int b = 0; b < tagNumber; b++){
-                System.out.println("Please input a tag that you want to be attatched to this dish.");
-                tags[b] = sc.nextLine();
+            String [] tags = new String [tagNumber];
+            if (tagNumber != 0){
+                System.out.println("Please input all of the tags that you want to be attatched to this dish.");
+                String [] tagsTemporary = new String [tagNumber+1];
+                for (int b = 0; b <= tagNumber; b++){
+                    tagsTemporary[b] = sc.nextLine();
+                }
+                tags = removeZeroPosition(tagsTemporary);
+            } else {
+                tags[0] = "";
             }
             System.out.println("Are there any seasonal requirements for this dish? Can it only be cooked during a " +
-                    "particular season? If so, type the name of that season (winter, spring, summer, fall). If not, just hit enter.");
+                    "particular season? If so, type the name of that season (winter, spring, summer, fall). If not, just say 'no'.");
             String season = sc.nextLine();
             System.out.println("Can this dish only be eaten on a certain day? If so, say yes. If not, say no.");
             String dayRequirementConfirm = sc.nextLine();
-            int [] day = {2};
+            int [] day = new int [2];
             if (dayRequirementConfirm.equals("yes")){
                 System.out.println("What is the number of the month? Please remember to start counting at 0. So 0 is " +
                         "January, 1 is February, etc.");
@@ -79,7 +84,7 @@ public class Choice {
         } else if (option == 6){ // input last three meals
 
         } else if (option == 7){ // end the program
-
+            ableToDoMore = false;
         }
         return "Oops! Something went wrong. Please make sure that you only inputted one digit, " +
                 "and that that digit is a valid option";
@@ -151,6 +156,14 @@ public class Choice {
             return false;
         }
         return true;
+    }
+
+    public String [] removeZeroPosition(String [] temporary){
+        String [] result = new String [temporary.length-1];
+        for (int a = 0; a < temporary.length-1; a++){
+            result[a] = temporary[a+1];
+        }
+        return result;
     }
 
 }
