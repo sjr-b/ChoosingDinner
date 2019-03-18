@@ -39,7 +39,7 @@ public class Dish {
         return this.preparationTime;
     }
 
-    public String getTags() {
+    public String getTagsAsString() {
         String result = "";
         for (int a = 0; a < this.tags.length; a++){
             if (tags[a] != ""){
@@ -50,6 +50,10 @@ public class Dish {
         }
         result = result.substring(0, result.length() - 2);
         return result;
+    }
+
+    public String[] getTags(){
+        return this.tags;
     }
 
     public void setTags(String[] tags) {
