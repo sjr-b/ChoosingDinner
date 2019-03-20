@@ -1,4 +1,3 @@
-import java.util.Calendar;
 import java.util.Scanner;
 
 public class Runner {
@@ -10,34 +9,34 @@ public class Runner {
 
         // These are the default dishes.
         String [] latkeIngredients = {"potato", "pepper", "butter"};
-        String [] latkeTags = {"favorite"};
+        String [] latkeTags = {"favorite", "test"};
         Dish latke = new Dish("Latke", latkeIngredients, 60, latkeTags, "none", null);
-        String [] stirFryIngredients = {"beef", "bell pepper", "onion", "water chestnut", "rice"};
-        String [] stirFryTags = {""};
+        String [] stirFryIngredients = {"beef", "bell pepper", "onion", "water chestnut", "rice", "testr"};
+        String [] stirFryTags = {"", "test"};
         Dish stirFry = new Dish("Stir fry", stirFryIngredients, 45, stirFryTags, "none", null);
-        String [] albondigasIngredients = {"beef", "rice", "egg", "celery", "carrot", "potato"};
-        String [] albondigasTags = {""};
+        String [] albondigasIngredients = {"beef", "rice", "egg", "celery", "carrot", "potato", "testr"};
+        String [] albondigasTags = {"", "test"};
         Dish albondigas = new Dish("Albondigas", albondigasIngredients, 90, albondigasTags, "winter", null);
-        String [] porkAndSalsaIngredients = {"pork", "onion", "salsa", "green bean", "rice"};
-        String [] porkAndSalsaTags = {""};
+        String [] porkAndSalsaIngredients = {"pork", "onion", "salsa", "green bean", "rice", "testr"};
+        String [] porkAndSalsaTags = {"", "test"};
         Dish porkAndSalsa = new Dish("Pork and salsa", porkAndSalsaIngredients,45, porkAndSalsaTags, "none", null);
-        String [] beefAndPotatoesIngredients = {"beef", "potato", "onion", "mushroom"};
-        String [] beefAndPotatoesTags = {""};
+        String [] beefAndPotatoesIngredients = {"beef", "potato", "onion", "mushroom", "testr"};
+        String [] beefAndPotatoesTags = {"", "test"};
         Dish beefAndPotatoes = new Dish("Beef and potatoes", beefAndPotatoesIngredients, 45, beefAndPotatoesTags, "none", null);
-        String [] penneIngredients = {"chicken", "pesto", "penne"};
-        String [] penneTags = {"favorite"};
+        String [] penneIngredients = {"chicken", "pesto", "penne", "testr"};
+        String [] penneTags = {"favorite", "test"};
         Dish penne = new Dish("Penne", penneIngredients, 30, penneTags, "none", null);
-        String [] picnicIngredients = {"baguette", "pirociutto", "cheese", "apple", "roast beef", "salami", "fruit salad", "pasta salad"};
-        String [] picnicTags = {"favorite"};
+        String [] picnicIngredients = {"baguette", "pirociutto", "cheese", "apple", "roast beef", "salami", "fruit salad", "pasta salad", "testr"};
+        String [] picnicTags = {"favorite" , "test"};
         Dish picnic = new Dish("Picnic dinner", penneIngredients, 10, penneTags, "summer", null);
-        String [] tacosIngredients = {"chicken", "guacamole", "tortilla", "bean", "rice", "cilantro", "onion"};
-        String [] tacosTags = {"favorite"};
+        String [] tacosIngredients = {"chicken", "guacamole", "tortilla", "bean", "rice", "cilantro", "onion", "testr"};
+        String [] tacosTags = {"favorite", "test"};
         Dish tacos = new Dish("Chicken tacos", tacosIngredients, 20, tacosTags, "none", null);
-        String [] haggisIngredients = {"liver", "heart", "onion", "pepper", "coriander seeds", "bouillon cube", "oatmeal"};
-        String [] haggisTags = {""};
+        String [] haggisIngredients = {"liver", "heart", "onion", "pepper", "coriander seeds", "bouillon cube", "oatmeal", "testr"};
+        String [] haggisTags = {"", "test"};
         int [] haggisDate = {11, 30};
         Dish haggis = new Dish("Haggis", haggisIngredients, 40, haggisTags, "none", haggisDate);
-        String [] collegeSaladIngredients = {"lettuce", "olive oil", "dill", "salt", "pepper"};
+        String [] collegeSaladIngredients = {"lettuce", "olive oil", "dill", "salt", "pepper", "testr"};
         String [] collegeSaladTags = {"favorite"};
         Dish collegeSalad = new Dish("Purple salad", collegeSaladIngredients, 15, collegeSaladTags, "none", null);
 
@@ -54,8 +53,10 @@ public class Runner {
         System.out.println("7. Quit program.");
         System.out.println("Please input the appropriate number for which option you would like to continue with.");
         int option = sc.nextInt();
-        System.out.println(ch.executeChoice(option));
-        //System.out.println(ch.executeChoice(option));
+        System.out.println(ch.executeChoice(option, sc));
+        System.out.println("");
+        System.out.println(" --- ");
+        System.out.println("");
     }
 
 }

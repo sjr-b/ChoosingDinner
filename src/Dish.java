@@ -68,7 +68,7 @@ public class Dish {
         return dishQuantity;
     }
 
-    public static ArrayList<Dish> getDishes() {
+    public static ArrayList<Dish> getDishesAsNamesSingleList() {
         return dishes;
     }
 }

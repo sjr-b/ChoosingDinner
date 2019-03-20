@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -14,10 +15,9 @@ public class Choice {
         this.ableToDoMore = true;
     }
 
-    public String executeChoice(int option){
-        Scanner sc = new Scanner(System.in);
+    public String executeChoice(int option, Scanner sc){
         if (option == 1){ // choose a meal randomly -- REFINE
-            return chooseDishQuestions(sc);
+            return chooseDish(sc);
         } else if (option == 2){ // list the dishes -- REFINE
             return listDishes();
         } else if (option == 3){ // add a dish -- DOUBLE CHECK
@@ -37,7 +37,7 @@ public class Choice {
 
     }
 
-    public String chooseDishQuestions (Scanner sc){
+    public String chooseDish (Scanner sc){
         System.out.println("Is there a tag that you would like to use? If so, please type the tag below. If not," +
                 " simply type 'no'.");
         String tag = sc.nextLine();
@@ -58,10 +58,10 @@ public class Choice {
         String ingredient1Exclude = sc.nextLine();
         String ingredient2Exclude = sc.nextLine();
         String ingredient3Exclude = sc.nextLine();
-        return chooseDish(tag, ingredient1, ingredient2, ingredient3, tagExclude, ingredient1Exclude, ingredient2Exclude, ingredient3Exclude);
+        return randomDish(tag, ingredient1, ingredient2, ingredient3, tagExclude, ingredient1Exclude, ingredient2Exclude, ingredient3Exclude);
     }
 
-    public String chooseDish(String tag, String ingredient1, String ingredient2, String ingredient3, String tagExclude, String ingredient1Exclude, String ingredient2Exclude, String ingredient3Exclude){
+    public String randomDish(String tag, String ingredient1, String ingredient2, String ingredient3, String tagExclude, String ingredient1Exclude, String ingredient2Exclude, String ingredient3Exclude){
         ArrayList<Dish> options = Dish.dishes;
         options = includeWanted(options, tag);
         options = includeWanted(options, ingredient1);
@@ -71,9 +71,13 @@ public class Choice {
         options = excludeUnwanted(options, ingredient1Exclude);
         options = excludeUnwanted(options, ingredient2Exclude);
         options = excludeUnwanted(options, ingredient3Exclude);
+        if (options.size() < 0){
+            return "Oops! Your requirements were too strict, and none of the dishes satsify them. The program will now" +
+                    " restart, and you can choose a new dish again. Please use less strict parameters. Thank you!";
+        }
         int choiceSelection = new Random().nextInt(options.size());
         while (timeCheck(options.get(choiceSelection)) == false){
-            choiceSelection = new Random().nextInt(Dish.dishQuantity);
+            choiceSelection = new Random().nextInt(options.size());
         }
         System.out.println("Your dish is: " + Dish.dishes.get(choiceSelection).name);
         System.out.println("This dish is made of: " + Dish.dishes.get(choiceSelection).getIngredients());
@@ -86,6 +90,11 @@ public class Choice {
                 if (Arrays.asList(options.get(a).tags).contains(necessary) == false && Arrays.asList(options.get(a).ingredients).contains(necessary) == false){
                     options.remove(a);
                     a--;
+                }
+                if (options.size() < 0){
+                    System.out.println("Oops! Your parameters were too strict. Unfortunately, the program cannot take this. It will now restart.");
+                    ArrayList<Dish> end = new ArrayList<Dish>();
+                    return end;
                 }
             }
         }
@@ -118,9 +127,9 @@ public class Choice {
         int [] today = {Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH)};
         if (today[0] < 2 || today[0] == 11 && today[1] >= 21 || today[0] == 2 && today[1] < 20){ // complete months of winter, first half of winter, second half
             return "winter";
-        } else if (today[0] == 3 || today[0] == 4 || today[0] == 2 && today[1] >= 20 || today[0] == 5 && today[1] < 21){
+        } else if (today[0] == 3 || today[0] == 4 || today[0] == 2 || today[0] == 5 && today[1] < 21){
             return "spring";
-        } else if (today[0] == 6 || today[0] == 7 || today[0] == 5 && today[1] >= 21 || today[0] == 8 && today[1] < 22){
+        } else if (today[0] == 6 || today[0] == 7 || today[0] == 5 || today[0] == 8 && today[1] < 22){
             return "summer";
         } else {
             return "fall";
@@ -135,10 +144,9 @@ public class Choice {
                     + String.valueOf(Dish.dishes.get(a).preparationTime) + ", Tags: "
                     + Dish.dishes.get(a).getTagsAsString() + ")");
         }
-        String result = String.valueOf(amount + 1) + ". " + Dish.dishes.get(amount).name + " (Cooking time: "
+        return String.valueOf(amount + 1) + ". " + Dish.dishes.get(amount).name + " (Cooking time: "
                 + String.valueOf(Dish.dishes.get(amount).preparationTime) + ", tags: "
                 + Dish.dishes.get(amount).getTagsAsString() + ")";
-        return result;
     }
 
     public String addDish(Scanner sc){
@@ -204,14 +212,16 @@ public class Choice {
     }
 
     public String addTag(Scanner sc){
+        System.out.println("Here are all of the dishes, including their tags.");
+        System.out.println(listDishes());
+        System.out.println("");
         System.out.println("Which dish do you want to add a tag too? Please make sure to type the name with the" +
                 " correct spelling and capitalization.");
+        String irrelevant = sc.nextLine(); // this is just to store the response, so this entire thing doesn't fail :)
         String dishName = sc.nextLine();
-        boolean successCheck = false;
         String tag = "";
         for (int a = 0; a < Dish.dishQuantity; a++){
             if (dishName.equals(Dish.dishes.get(a).name)){
-                successCheck = true;
                 System.out.println("Currently, the tags for " + dishName + " are as follows:");
                 System.out.println(Dish.dishes.get(a).getTagsAsString());
                 System.out.println("What tag would you like to add to the dish?");
@@ -225,11 +235,7 @@ public class Choice {
                 return "The tag '" + tag + "' has been added to the dish!";
             }
         }
-        if (successCheck == true) {
-            return "The tag '" + tag + "' has been added to the dish!";
-        } else {
-            return "Oops! Something went wrong. You likely inputted the name incorrectly. The process is now restarting.";
-        }
+        return "Oops! Something went wrong. You likely inputted the dish's name incorrectly. The process is now restarting.";
     }
 
     public String [] removeZeroPosition(String [] temporary){
