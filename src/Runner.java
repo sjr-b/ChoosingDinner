@@ -12,7 +12,7 @@ public class Runner {
         String [] latkeIngredients = {"potato", "pepper", "butter"};
         String [] latkeTags = {"favorite"};
         Dish latke = new Dish("Latke", latkeIngredients, 60, latkeTags, "none", null);
-        String [] stirFryIngredients = {"beef", "bell pepper", "onion", "water chesnut", "rice"};
+        String [] stirFryIngredients = {"beef", "bell pepper", "onion", "water chestnut", "rice"};
         String [] stirFryTags = {""};
         Dish stirFry = new Dish("Stir fry", stirFryIngredients, 45, stirFryTags, "none", null);
         String [] albondigasIngredients = {"beef", "rice", "egg", "celery", "carrot", "potato"};
@@ -41,22 +41,17 @@ public class Runner {
         String [] collegeSaladTags = {"favorite"};
         Dish collegeSalad = new Dish("Purple salad", collegeSaladIngredients, 15, collegeSaladTags, "none", null);
 
-        System.out.println(Calendar.getInstance().get(Calendar.MONTH));
-        System.out.println(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        System.out.println("");
         Scanner sc = new Scanner(System.in);
         Choice ch = new Choice();
         System.out.println("This is a program designed to help you choose what to have for dinner. Here are some options" +
                 " for what you can do at this time:");
-        System.out.println("1. Choose a completely random meal.");
-        System.out.println("2. Choose a meal, but narrow the selection criteria by specifying which tags or ingredients" +
-                " must (not) be included.");
-        System.out.println("3. List the available meals.");
-        System.out.println("4. Add a meal.");
-        System.out.println("5. Remove a meal.");
-        System.out.println("6. Add a tag to one of the existing meals.");
-        System.out.println("7. Input what you've had for dinner in the past three days.");
-        System.out.println("8. Quit program.");
+        System.out.println("1. Choose a meal.");
+        System.out.println("2. List the available meals.");
+        System.out.println("3. Add a meal.");
+        System.out.println("4. Remove a meal.");
+        System.out.println("5. Add a tag to one of the existing meals.");
+        System.out.println("6. Input what you've had for dinner in the past three days.");
+        System.out.println("7. Quit program.");
         System.out.println("Please input the appropriate number for which option you would like to continue with.");
         int option = sc.nextInt();
         System.out.println(ch.executeChoice(option));
