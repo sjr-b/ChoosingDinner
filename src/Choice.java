@@ -124,7 +124,8 @@ public class Choice {
                 return "Oops! Something went wrong. You likely inputted the name incorrectly. The process is now restarting.";
             }
         } else if (option == 7){ // input last three meals
-
+            inputLastThreeDays();
+            return "Thank you!";
         } else if (option == 8){ // end the program
             ableToDoMore = false;
             return "This program has ended! Hopefully you found something good to cook today. Come back soon!";
@@ -207,6 +208,31 @@ public class Choice {
             result[a] = temporary[a+1];
         }
         return result;
+    }
+
+    public void inputLastThreeDays(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("What were the last three meals that you had? Keep in mind, they have to be one of the" +
+                " meals that are in this program. The meals are all listed below.");
+        System.out.println(listDishes());
+        System.out.println("Okay, now please say what you had in the past few days.");
+        System.out.print("What you eat three days ago?");
+        String dishNameLast = sc.nextLine();
+        inputIntoPreviousThreeArray(dishNameLast,2);
+        System.out.println("What did you eat two days ago?");
+        String dishNameMed = sc.nextLine();
+        inputIntoPreviousThreeArray(dishNameMed, 1);
+        System.out.println("What did you eat yesterday?");
+        String dishNameYesterday = sc.nextLine();
+        inputIntoPreviousThreeArray(dishNameYesterday, 0);
+    }
+
+    public void inputIntoPreviousThreeArray(String dishName, int placementInArray){
+        for (int a = 0; a < Dish.dishQuantity; a++){
+            if (dishName == Dish.dishes.get(a).name){
+                previousThree[placementInArray] = Dish.dishes.get(a);
+            }
+        }
     }
 
 }
