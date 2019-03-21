@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -213,7 +212,7 @@ public class Choice {
 
     public String addTag(Scanner sc){
         System.out.println("Here are all of the dishes, including their tags.");
-        System.out.println(listDishes());
+        System.out.println(Dish.getNamesAsString());
         System.out.println("");
         System.out.println("Which dish do you want to add a tag too? Please make sure to type the name with the" +
                 " correct spelling and capitalization.");
@@ -249,7 +248,7 @@ public class Choice {
     public String inputLastThreeDays(Scanner sc){
         System.out.println("What were the last three meals that you had? Keep in mind, they have to be one of the" +
                 " meals that are in this program. The meals are all listed below.");
-        System.out.println(listDishes());
+        System.out.println(Dish.getNamesAsString());
         System.out.println("Okay, now please say what you had in the past few days.");
         System.out.print("What you eat three days ago?");
         String dishNameLast = sc.nextLine();

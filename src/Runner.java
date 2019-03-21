@@ -42,6 +42,7 @@ public class Runner {
 
         Scanner sc = new Scanner(System.in);
         Choice ch = new Choice();
+        while (ch.ableToDoMore){
         System.out.println("This is a program designed to help you choose what to have for dinner. Here are some options" +
                 " for what you can do at this time:");
         System.out.println("1. Choose a meal.");
@@ -57,6 +58,7 @@ public class Runner {
         System.out.println("");
         System.out.println(" --- ");
         System.out.println("");
+        }
     }
 
 }

@@ -9,7 +9,7 @@ public class Dish {
     String seasonRequirements; // this is for holiday and season-appropriate food
     int [] day;
     static int dishQuantity = 0;
-    static ArrayList<Dish> dishes = new ArrayList<Dish>();
+    static ArrayList<Dish> dishes = new ArrayList<>();
 
     public Dish(String name, String[] ingredients, int preparationTime, String[] tags, String seasonRequirements, int [] day) {
         this.name = name;
@@ -22,8 +22,13 @@ public class Dish {
         dishes.add(this);
     }
 
-    public String getName() {
-        return this.name;
+    public static String getNamesAsString() {
+        String result = "";
+        for (int a = 0; a < dishQuantity - 1; a++){
+            result += dishes.get(a).name + ", ";
+        }
+        result = result.substring(0, result.length() - 2);
+        return result;
     }
 
     public String getIngredients() {
