@@ -7,57 +7,73 @@ import java.util.Random;
 public class Choice {
 
     Dish [] previousThree;
+    String irreleventLines;
     boolean ableToDoMore;
 
     public Choice() {
         this.previousThree = new Dish [3];
         this.ableToDoMore = true;
+        this.irreleventLines = "";
     }
 
     public String executeChoice(int option, Scanner sc){
-        if (option == 1){ // choose a meal randomly -- REFINE
-            return chooseDish(sc);
-        } else if (option == 2){ // list the dishes -- REFINE
-            return listDishes();
+        if (option == 1){ // choose a meal randomly -- INCORPORATE PREV THREE
+            System.out.println(chooseDish(sc));
+            return continueOrNot(sc);
+        } else if (option == 2){ // list the dishes -- DONE
+            System.out.println(listDishes());
+            return continueOrNot(sc);
         } else if (option == 3){ // add a dish -- DOUBLE CHECK
-            return addDish(sc);
+            System.out.println(addDish(sc));
+            return continueOrNot(sc);
         } else if (option == 4){ // remove a dish -- DONE
-            return removeDish(sc);
+            System.out.println(removeDish(sc));
+            return continueOrNot(sc);
         } else if (option == 5){ // add a tag to a dish -- TEST
-            return addTag(sc);
-        } else if (option == 6){ // input last three meals -- TEST
-            return inputLastThreeDays(sc);
-        } else if (option == 7){ // end the program
-            ableToDoMore = false;
-            return "This program has ended! Hopefully you found something good to cook today. Come back soon!";
+            System.out.println(addTag(sc));
+            return continueOrNot(sc);
+        } else if (option == 6){ // input last three meals -- DONE
+            System.out.println(inputLastThreeDays(sc));
+            return continueOrNot(sc);
         }
-        return "Oops! Something went wrong. Please make sure that you only inputted one digit, " +
-                "and that that digit is a valid option";
-
+        return "Oops, something went wrong. Did you input a valid number?";
     }
 
     public String chooseDish (Scanner sc){
-        System.out.println("Is there a tag that you would like to use? If so, please type the tag below. If not," +
-                " simply type 'no'.");
-        String tag = sc.nextLine();
-        System.out.println("Are there any ingredients that you would like to use? You may specify up to three " +
-                "ingredients. ");
-        System.out.println("Please make sure to type them in singular form (so do not say 'potatoes', say 'potato'). " +
-                "If you don't want to specify any specific ingredients, just type 'no'.");
-        System.out.println("Now please type in the three ingredients that you want to use. " +
-                "Just type 'no' three times if you don't want to use any.");
-        String ingredient1 = sc.nextLine();
-        String ingredient2 = sc.nextLine();
-        String ingredient3 = sc.nextLine();
-        System.out.println("Is there a tag that you want to exclude? If so, please type the tag below. If not," +
-                " simply type 'no'.");
-        String tagExclude = sc.nextLine();
-        System.out.println("Are there any three ingredients that you would like to exclude? If so, please type them" +
-                " below. If not, just type 'no'.");
-        String ingredient1Exclude = sc.nextLine();
-        String ingredient2Exclude = sc.nextLine();
-        String ingredient3Exclude = sc.nextLine();
-        return randomDish(tag, ingredient1, ingredient2, ingredient3, tagExclude, ingredient1Exclude, ingredient2Exclude, ingredient3Exclude);
+        if (checkTodayForDishRequirement() > Dish.dishQuantity) {
+            System.out.println("Please keep in mind that any restrictions you put on the dish will be overruled if a dish" +
+                    " is mandatory for this day.");
+            System.out.println("So if it is international pancake day, the only suggestion that you will recieve will" +
+                    " be for pancakes.");
+            System.out.println("Is there a tag that you would like to use? If so, please type the tag below. If not," +
+                    " simply type 'no'.");
+            this.irreleventLines = sc.nextLine();
+            String tag = sc.nextLine();
+            System.out.println("Are there any ingredients that you would like to use? You may specify up to three " +
+                    "ingredients. ");
+            System.out.println("Please make sure to type them in singular form (so do not say 'potatoes', say 'potato'). " +
+                    "If you don't want to specify any specific ingredients, just type 'no'.");
+            System.out.println("Now please type in the three ingredients that you want to use. " +
+                    "Just type 'no' three times if you don't want to use any.");
+            String ingredient1 = sc.nextLine();
+            String ingredient2 = sc.nextLine();
+            String ingredient3 = sc.nextLine();
+            System.out.println("Is there a tag that you want to exclude? If so, please type the tag below. If not," +
+                    " simply type 'no'.");
+            String tagExclude = sc.nextLine();
+            System.out.println("Are there any three ingredients that you would like to exclude? If so, please type them" +
+                    " below. If not, just type 'no'.");
+            String ingredient1Exclude = sc.nextLine();
+            String ingredient2Exclude = sc.nextLine();
+            String ingredient3Exclude = sc.nextLine();
+            System.out.println("");
+            return randomDish(tag, ingredient1, ingredient2, ingredient3, tagExclude, ingredient1Exclude, ingredient2Exclude, ingredient3Exclude);
+        } else {
+            int placement = checkTodayForDishRequirement();
+            System.out.println("Your dish is: " + Dish.dishes.get(placement).name);
+            System.out.println("This dish is made of: " + Dish.dishes.get(placement).getIngredients());
+            return "This dish requires " + Dish.dishes.get(placement).getPreparationTime() + " minutes to cook.";
+        }
     }
 
     public String randomDish(String tag, String ingredient1, String ingredient2, String ingredient3, String tagExclude, String ingredient1Exclude, String ingredient2Exclude, String ingredient3Exclude){
@@ -113,11 +129,16 @@ public class Choice {
     }
 
     public boolean timeCheck(Dish meal){
-        if (meal.day != null && meal.day[0] != Calendar.getInstance().get(Calendar.MONTH) && meal.day[1] != Calendar.getInstance().get(Calendar.DAY_OF_MONTH)){
-            return false;
-        }
         if (meal.seasonRequirements != "none" && meal.seasonRequirements != getSeason()){
             return false;
+        }
+        this.previousThree[0] = Dish.dishes.get(0);
+        this.previousThree[1] = Dish.dishes.get(1);
+        this.previousThree[2] = Dish.dishes.get(2);
+        for (int a = 0; a < 3; a++){
+            if (this.previousThree[a] == meal){
+                return false;
+            }
         }
         return true;
     }
@@ -136,20 +157,21 @@ public class Choice {
     }
 
     public String listDishes(){
-        int amount = Dish.getDishQuantity() - 1;
-        for (int a = 0; a < amount; a++){
-            String number = String.valueOf(a+1);
+        int amount = Dish.getDishQuantity();
+        for (int a = 0; a < amount - 2; a++){
+            String number = String.valueOf(a + 1);
             System.out.println( number + ". " + Dish.dishes.get(a).name + " (Cooking time: "
                     + String.valueOf(Dish.dishes.get(a).preparationTime) + ", Tags: "
                     + Dish.dishes.get(a).getTagsAsString() + ")");
         }
-        return String.valueOf(amount + 1) + ". " + Dish.dishes.get(amount).name + " (Cooking time: "
-                + String.valueOf(Dish.dishes.get(amount).preparationTime) + ", tags: "
-                + Dish.dishes.get(amount).getTagsAsString() + ")";
+        return String.valueOf(amount) + ". " + Dish.dishes.get(amount - 1).name + " (Cooking time: "
+                + String.valueOf(Dish.dishes.get(amount - 1).preparationTime) + ", tags: "
+                + Dish.dishes.get(amount - 1).getTagsAsString() + ")";
     }
 
     public String addDish(Scanner sc){
         System.out.println("What do you want to name your dish?");
+        this.irreleventLines += sc.nextLine();
         String name = sc.nextLine();
         System.out.println("How many ingredients does it take to make this dish?");
         int ingredientAmount = sc.nextInt();
@@ -166,7 +188,7 @@ public class Choice {
         int tagNumber = sc.nextInt();
         String [] tags = new String [tagNumber];
         if (tagNumber != 0){
-            System.out.println("Please input all of the tags that you want to be attatched to this dish.");
+            System.out.println("Please input all of the tags that you want to be attached to this dish.");
             String [] tagsTemporary = new String [tagNumber+1];
             for (int b = 0; b <= tagNumber; b++){
                 tagsTemporary[b] = sc.nextLine();
@@ -251,6 +273,8 @@ public class Choice {
         System.out.println(Dish.getNamesAsString());
         System.out.println("Okay, now please say what you had in the past few days.");
         System.out.print("What you eat three days ago?");
+        System.out.println("");
+        this.irreleventLines += sc.nextLine();
         String dishNameLast = sc.nextLine();
         inputIntoPreviousThreeArray(dishNameLast,2);
         System.out.println("What did you eat two days ago?");
@@ -259,15 +283,42 @@ public class Choice {
         System.out.println("What did you eat yesterday?");
         String dishNameYesterday = sc.nextLine();
         inputIntoPreviousThreeArray(dishNameYesterday, 0);
+        Dish [] testing = this.previousThree;
         return "Okay, tags have been added!";
     }
 
     public void inputIntoPreviousThreeArray(String dishName, int placementInArray){
         for (int a = 0; a < Dish.dishQuantity; a++){
-            if (dishName == Dish.dishes.get(a).name){
+            String name = Dish.dishes.get(a).name;
+            if (dishName.equals(name)){
                 previousThree[placementInArray] = Dish.dishes.get(a);
             }
         }
+    }
+
+    public String continueOrNot(Scanner sc){
+        System.out.println("");
+        System.out.println("Would you like to continue the program or quit it? If you would like to end this program," +
+                " please type 'quit' (without the quotation marks).");
+        System.out.println("If you want to continue, feel free to type anything else, or just hit enter.");
+        this.irreleventLines = sc.nextLine();
+        String result = sc.nextLine();
+        if (result.equals("quit")){
+            this.ableToDoMore = false;
+            return "This program has ended! Hopefully you found something good to cook today. Come back soon!";
+        } else {
+            return "Thanks for sticking around! You can now choose what else you want to do.";
+        }
+    }
+
+    public int checkTodayForDishRequirement(){
+        for (int a = 0; a < Dish.dishQuantity; a++){
+            if (Dish.dishes.get(a).day != null && Dish.dishes.get(a).day[0] == Calendar.getInstance().get(Calendar.MONTH)
+            && Dish.dishes.get(a).day[1] == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)){
+                return a;
+            }
+        }
+        return Dish.dishQuantity + 1000;
     }
 
 }

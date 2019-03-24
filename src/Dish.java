@@ -9,7 +9,8 @@ public class Dish {
     String seasonRequirements; // this is for holiday and season-appropriate food
     int [] day;
     static int dishQuantity = 0;
-    static ArrayList<Dish> dishes = new ArrayList<>();
+    static ArrayList<Dish> dishes = new ArrayList<Dish>();
+    static int [][] requiredDates = new int [0][0];
 
     public Dish(String name, String[] ingredients, int preparationTime, String[] tags, String seasonRequirements, int [] day) {
         this.name = name;
