@@ -238,7 +238,7 @@ public class Choice {
         System.out.println("");
         System.out.println("Which dish do you want to add a tag too? Please make sure to type the name with the" +
                 " correct spelling and capitalization.");
-        String irrelevant = sc.nextLine(); // this is just to store the response, so this entire thing doesn't fail :)
+        this.irreleventLines = sc.nextLine();
         String dishName = sc.nextLine();
         String tag = "";
         for (int a = 0; a < Dish.dishQuantity; a++){
@@ -283,7 +283,6 @@ public class Choice {
         System.out.println("What did you eat yesterday?");
         String dishNameYesterday = sc.nextLine();
         inputIntoPreviousThreeArray(dishNameYesterday, 0);
-        Dish [] testing = this.previousThree;
         return "Okay, tags have been added!";
     }
 
