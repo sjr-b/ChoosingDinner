@@ -86,10 +86,6 @@ public class Choice {
         options = excludeUnwanted(options, ingredient1Exclude);
         options = excludeUnwanted(options, ingredient2Exclude);
         options = excludeUnwanted(options, ingredient3Exclude);
-        if (options.size() < 0){
-            return "Oops! Your requirements were too strict, and none of the dishes satsify them. The program will now" +
-                    " restart, and you can choose a new dish again. Please use less strict parameters. Thank you!";
-        }
         int choiceSelection = new Random().nextInt(options.size());
         while (!timeCheck(options.get(choiceSelection))){
             choiceSelection = new Random().nextInt(options.size());
