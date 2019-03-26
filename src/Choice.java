@@ -7,32 +7,32 @@ import java.util.Random;
 public class Choice {
 
     Dish [] previousThree;
-    String irreleventLines;
+    String irrelevantLines;
     boolean ableToDoMore;
 
     public Choice() {
         this.previousThree = new Dish [3];
         this.ableToDoMore = true;
-        this.irreleventLines = "";
+        this.irrelevantLines = "";
     }
 
     public String executeChoice(int option, Scanner sc){
-        if (option == 1){ // choose a meal randomly -- INCORPORATE PREV THREE
+        if (option == 1){ // choose a meal randomly
             System.out.println(chooseDish(sc));
             return continueOrNot(sc);
-        } else if (option == 2){ // list the dishes -- DONE
+        } else if (option == 2){ // list the dishes
             System.out.println(listDishes());
             return continueOrNot(sc);
-        } else if (option == 3){ // add a dish -- DOUBLE CHECK
+        } else if (option == 3){ // add a dish
             System.out.println(addDish(sc));
             return continueOrNot(sc);
-        } else if (option == 4){ // remove a dish -- DONE
+        } else if (option == 4){ // remove a dish
             System.out.println(removeDish(sc));
             return continueOrNot(sc);
-        } else if (option == 5){ // add a tag to a dish -- TEST
+        } else if (option == 5){ // add a tag to a dish
             System.out.println(addTag(sc));
             return continueOrNot(sc);
-        } else if (option == 6){ // input last three meals -- DONE
+        } else if (option == 6){ // input last three meals
             System.out.println(inputLastThreeDays(sc));
             return continueOrNot(sc);
         }
@@ -47,7 +47,7 @@ public class Choice {
                     " be for pancakes.");
             System.out.println("Is there a tag that you would like to use? If so, please type the tag below. If not," +
                     " simply type 'no'.");
-            this.irreleventLines = sc.nextLine();
+            this.irrelevantLines = sc.nextLine();
             String tag = sc.nextLine();
             System.out.println("Are there any ingredients that you would like to use? You may specify up to three " +
                     "ingredients. ");
@@ -91,7 +91,7 @@ public class Choice {
                     " restart, and you can choose a new dish again. Please use less strict parameters. Thank you!";
         }
         int choiceSelection = new Random().nextInt(options.size());
-        while (timeCheck(options.get(choiceSelection)) == false){
+        while (!timeCheck(options.get(choiceSelection))){
             choiceSelection = new Random().nextInt(options.size());
         }
         System.out.println("Your dish is: " + Dish.dishes.get(choiceSelection).name);
@@ -100,16 +100,16 @@ public class Choice {
     }
 
     public ArrayList<Dish> includeWanted(ArrayList<Dish> options, String necessary){
-        if (necessary.equals("no") == false) {
+        if (!necessary.equals("no")) {
             for (int a = 0; a < options.size(); a++){
-                if (Arrays.asList(options.get(a).tags).contains(necessary) == false && Arrays.asList(options.get(a).ingredients).contains(necessary) == false){
+                if (!Arrays.asList(options.get(a).tags).contains(necessary) && !Arrays.asList(options.get(a).ingredients).contains(necessary) && options.size() == 1){
+                    System.out.println("Oops! Your parameters were too strict. Unfortunately, now the program will not" +
+                            " eliminate anything, and will undo all of your changes at this point.");
+                    return Dish.dishes;
+                }
+                if (!Arrays.asList(options.get(a).tags).contains(necessary) && !Arrays.asList(options.get(a).ingredients).contains(necessary)){
                     options.remove(a);
                     a--;
-                }
-                if (options.size() < 0){
-                    System.out.println("Oops! Your parameters were too strict. Unfortunately, the program cannot take this. It will now restart.");
-                    ArrayList<Dish> end = new ArrayList<Dish>();
-                    return end;
                 }
             }
         }
@@ -117,8 +117,13 @@ public class Choice {
     }
 
     public ArrayList<Dish> excludeUnwanted(ArrayList<Dish> options, String exclusion){
-        if (exclusion.equals("no") == false){
+        if (!exclusion.equals("no")){
             for (int a = 0; a < options.size(); a++){
+                if (options.size() == 1 && Arrays.asList(options.get(a).tags).contains(exclusion) || Arrays.asList(options.get(a).ingredients).contains(exclusion)){
+                    System.out.println("Oops! Your parameters were too strict. Unfortunately, now the program will not" +
+                            " eliminate anything, and will undo all of your changes at this point.");
+                    return Dish.dishes;
+                }
                 if (Arrays.asList(options.get(a).tags).contains(exclusion) || Arrays.asList(options.get(a).ingredients).contains(exclusion)){
                     options.remove(a);
                     a--;
@@ -129,12 +134,9 @@ public class Choice {
     }
 
     public boolean timeCheck(Dish meal){
-        if (meal.seasonRequirements != "none" && meal.seasonRequirements != getSeason()){
+        if (!meal.seasonRequirements.equals("none") && !meal.seasonRequirements.equals(getSeason())){
             return false;
         }
-        this.previousThree[0] = Dish.dishes.get(0);
-        this.previousThree[1] = Dish.dishes.get(1);
-        this.previousThree[2] = Dish.dishes.get(2);
         for (int a = 0; a < 3; a++){
             if (this.previousThree[a] == meal){
                 return false;
@@ -145,7 +147,7 @@ public class Choice {
 
     public String getSeason(){
         int [] today = {Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH)};
-        if (today[0] < 2 || today[0] == 11 && today[1] >= 21 || today[0] == 2 && today[1] < 20){ // complete months of winter, first half of winter, second half
+        if (today[0] < 2 || today[0] == 11 && today[1] >= 21 || today[0] == 2 && today[1] < 20){
             return "winter";
         } else if (today[0] == 3 || today[0] == 4 || today[0] == 2 || today[0] == 5 && today[1] < 21){
             return "spring";
@@ -171,7 +173,7 @@ public class Choice {
 
     public String addDish(Scanner sc){
         System.out.println("What do you want to name your dish?");
-        this.irreleventLines += sc.nextLine();
+        this.irrelevantLines += sc.nextLine();
         String name = sc.nextLine();
         System.out.println("How many ingredients does it take to make this dish?");
         int ingredientAmount = sc.nextInt();
@@ -238,7 +240,7 @@ public class Choice {
         System.out.println("");
         System.out.println("Which dish do you want to add a tag too? Please make sure to type the name with the" +
                 " correct spelling and capitalization.");
-        this.irreleventLines = sc.nextLine();
+        this.irrelevantLines = sc.nextLine();
         String dishName = sc.nextLine();
         String tag = "";
         for (int a = 0; a < Dish.dishQuantity; a++){
@@ -274,7 +276,7 @@ public class Choice {
         System.out.println("Okay, now please say what you had in the past few days.");
         System.out.print("What you eat three days ago?");
         System.out.println("");
-        this.irreleventLines += sc.nextLine();
+        this.irrelevantLines += sc.nextLine();
         String dishNameLast = sc.nextLine();
         inputIntoPreviousThreeArray(dishNameLast,2);
         System.out.println("What did you eat two days ago?");
@@ -300,7 +302,7 @@ public class Choice {
         System.out.println("Would you like to continue the program or quit it? If you would like to end this program," +
                 " please type 'quit' (without the quotation marks).");
         System.out.println("If you want to continue, feel free to type anything else, or just hit enter.");
-        this.irreleventLines = sc.nextLine();
+        this.irrelevantLines = sc.nextLine();
         String result = sc.nextLine();
         if (result.equals("quit")){
             this.ableToDoMore = false;
