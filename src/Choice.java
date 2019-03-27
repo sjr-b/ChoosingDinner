@@ -100,7 +100,8 @@ public class Choice {
             for (int a = 0; a < options.size(); a++){
                 if (!Arrays.asList(options.get(a).tags).contains(necessary) && !Arrays.asList(options.get(a).ingredients).contains(necessary) && options.size() == 1){
                     System.out.println("Oops! Your parameters were too strict. Unfortunately, now the program will not" +
-                            " eliminate anything, and will undo all of your changes at this point.");
+                            " eliminate anything. Additionally, it will also" +
+                            " shut down after this operation, and will be unable to function unless it is restarted.");
                     return Dish.dishes;
                 }
                 if (!Arrays.asList(options.get(a).tags).contains(necessary) && !Arrays.asList(options.get(a).ingredients).contains(necessary)){

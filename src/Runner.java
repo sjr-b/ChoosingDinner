@@ -4,9 +4,6 @@ public class Runner {
 
     public static void main(String[] args) {
 
-        // MAKE SURE TO GO THROUGH EVERYTHING AT THE END AND MAKE IT READABLE!! - Sincerely, your past self who can't do
-        // it now because she needs to go to the CCC
-
         // These are the default dishes.
         String [] latkeIngredients = {"potato", "pepper", "butter"};
         String [] latkeTags = {"favorite", "long"};
@@ -38,12 +35,15 @@ public class Runner {
         Dish haggis = new Dish("Haggis", haggisIngredients, 40, haggisTags, "none", haggisDate);
         String [] collegeSaladIngredients = {"lettuce", "olive oil", "dill", "salt", "pepper"};
         String [] collegeSaladTags = {"favorite", "cheap", "easy"};
-//        int [] collegeSaladDate = {2, 24};
         Dish collegeSalad = new Dish("Cabbage salad", collegeSaladIngredients, 15, collegeSaladTags, "none", null);
 
         Scanner sc = new Scanner(System.in);
         Choice ch = new Choice();
-        System.out.println("This is a program designed to help you choose what to have for dinner.");
+        System.out.println("Welcome! This is a program designed to help you choose what to have for dinner.");
+        System.out.println("IMPORTANT: You MUST type everything with the correct capitalization, otherwise this program" +
+                " will be unable to recognize the instructions you give it. Additionally, make sure NEVER to type an" +
+                " ingredient or tag that does not exist. If you do that, or if you misspell it, the program will be" +
+                " unable to recognize the word, and will likely crash or have other operational difficulties.");
         System.out.println("");
         while (ch.ableToDoMore){
             System.out.println("Here are some options for what you can do at this time:");
