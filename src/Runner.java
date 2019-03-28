@@ -38,14 +38,14 @@ public class Runner {
         Dish collegeSalad = new Dish("Cabbage salad", collegeSaladIngredients, 15, collegeSaladTags, "none", null);
 
         Scanner sc = new Scanner(System.in);
-        Choice ch = new Choice();
+
         System.out.println("Welcome! This is a program designed to help you choose what to have for dinner.");
         System.out.println("IMPORTANT: You MUST type everything with the correct capitalization, otherwise this program" +
                 " will be unable to recognize the instructions you give it. Additionally, make sure NEVER to type an" +
                 " ingredient or tag that does not exist. If you do that, or if you misspell it, the program will be" +
                 " unable to recognize the word, and will likely crash or have other operational difficulties.");
         System.out.println("");
-        while (ch.ableToDoMore){
+        while (Choice.ableToDoMore){
             System.out.println("Here are some options for what you can do at this time:");
             System.out.println("1. Choose a meal.");
             System.out.println("2. List the available meals.");
@@ -55,6 +55,7 @@ public class Runner {
             System.out.println("6. Input what you've had for dinner in the past three days.");
             System.out.println("Please input the appropriate number for which option you would like to continue with.");
             int option = sc.nextInt();
+            Choice ch = new Choice();
             System.out.println(ch.executeChoice(option, sc));
             System.out.println("");
             System.out.println(" --- ");

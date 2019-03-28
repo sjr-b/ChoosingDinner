@@ -22,15 +22,6 @@ public class Dish {
         dishes.add(this);
     }
 
-    public static String getNamesAsString() {
-        String result = "";
-        for (int a = 0; a < dishQuantity - 1; a++){
-            result += dishes.get(a).name + ", ";
-        }
-        result = result.substring(0, result.length() - 2);
-        return result;
-    }
-
     public String getIngredients() {
         String ingredientList = "";
         for (int a = 0; a < this.ingredients.length; a++){
@@ -57,23 +48,8 @@ public class Dish {
         return result;
     }
 
-    public String[] getTags(){
-        return this.tags;
-    }
-
     public void setTags(String[] tags) {
         this.tags = tags;
     }
 
-    public String getSeasonRequirements() {
-        return this.seasonRequirements;
-    }
-
-    public static int getDishQuantity() {
-        return dishQuantity;
-    }
-
-    public static ArrayList<Dish> getDishesAsNamesSingleList() {
-        return dishes;
-    }
 }

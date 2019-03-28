@@ -8,11 +8,10 @@ public class Choice {
 
     Dish [] previousThree;
     String irrelevantLines;
-    boolean ableToDoMore;
+    static boolean ableToDoMore = true;
 
     public Choice() {
         this.previousThree = new Dish [3];
-        this.ableToDoMore = true;
         this.irrelevantLines = "";
     }
 
@@ -99,12 +98,6 @@ public class Choice {
         if (!necessary.equals("no")) {
             for (int a = 0; a < options.size(); a++){
                 if (!Arrays.asList(options.get(a).tags).contains(necessary) && !Arrays.asList(options.get(a).ingredients).contains(necessary) && options.size() == 1){
-                    System.out.println("Oops! Your parameters were too strict. Unfortunately, now the program will not" +
-                            " eliminate anything. Additionally, it will also" +
-                            " shut down after this operation, and will be unable to function unless it is restarted.");
-                    return Dish.dishes;
-                }
-                if (!Arrays.asList(options.get(a).tags).contains(necessary) && !Arrays.asList(options.get(a).ingredients).contains(necessary)){
                     options.remove(a);
                     a--;
                 }
@@ -116,11 +109,6 @@ public class Choice {
     public ArrayList<Dish> excludeUnwanted(ArrayList<Dish> options, String exclusion){
         if (!exclusion.equals("no")){
             for (int a = 0; a < options.size(); a++){
-                if (options.size() == 1 && Arrays.asList(options.get(a).tags).contains(exclusion) || Arrays.asList(options.get(a).ingredients).contains(exclusion)){
-                    System.out.println("Oops! Your parameters were too strict. Unfortunately, now the program will not" +
-                            " eliminate anything, and will undo all of your changes at this point.");
-                    return Dish.dishes;
-                }
                 if (Arrays.asList(options.get(a).tags).contains(exclusion) || Arrays.asList(options.get(a).ingredients).contains(exclusion)){
                     options.remove(a);
                     a--;
@@ -156,8 +144,8 @@ public class Choice {
     }
 
     public String listDishes(){
-        int amount = Dish.getDishQuantity();
-        for (int a = 0; a < amount - 2; a++){
+        int amount = Dish.dishQuantity;
+        for (int a = 0; a < amount - 1; a++){
             String number = String.valueOf(a + 1);
             System.out.println( number + ". " + Dish.dishes.get(a).name + " (Cooking time: "
                     + String.valueOf(Dish.dishes.get(a).preparationTime) + ", Tags: "
@@ -181,7 +169,7 @@ public class Choice {
             temporaryList[a] = sc.nextLine();
         }
         String [] ingredientList = removeZeroPosition(temporaryList);
-        System.out.println("How long does it take to cook this dish?");
+        System.out.println("How many minutes does it take to cook this dish?");
         int time = sc.nextInt();
         System.out.println("How many tags do you want to add to this dish? Please only respond with a number.");
         int tagNumber = sc.nextInt();
@@ -220,6 +208,7 @@ public class Choice {
         System.out.println(listDishes());
         System.out.println("What meal would you like to delete? Please type the name with the correct capitalization" +
                 " and spelling.");
+        this.irrelevantLines = sc.nextLine();
         String dishName = sc.nextLine();
         for (int a = 0; a < Dish.dishes.size(); a++){
             if (dishName.equals(Dish.dishes.get(a).name)){
@@ -233,7 +222,7 @@ public class Choice {
 
     public String addTag(Scanner sc){
         System.out.println("Here are all of the dishes, including their tags.");
-        System.out.println(Dish.getNamesAsString());
+        System.out.println(listDishes());
         System.out.println("");
         System.out.println("Which dish do you want to add a tag too? Please make sure to type the name with the" +
                 " correct spelling and capitalization.");
@@ -269,7 +258,7 @@ public class Choice {
     public String inputLastThreeDays(Scanner sc){
         System.out.println("What were the last three meals that you had? Keep in mind, they have to be one of the" +
                 " meals that are in this program. The meals are all listed below.");
-        System.out.println(Dish.getNamesAsString());
+        System.out.println(listDishes());
         System.out.println("Okay, now please say what you had in the past few days.");
         System.out.print("What you eat three days ago?");
         System.out.println("");
@@ -282,7 +271,7 @@ public class Choice {
         System.out.println("What did you eat yesterday?");
         String dishNameYesterday = sc.nextLine();
         inputIntoPreviousThreeArray(dishNameYesterday, 0);
-        return "Okay, tags have been added!";
+        return "Okay, your information has been updated!";
     }
 
     public void inputIntoPreviousThreeArray(String dishName, int placementInArray){
