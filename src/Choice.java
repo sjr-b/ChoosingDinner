@@ -97,7 +97,7 @@ public class Choice {
     public ArrayList<Dish> includeWanted(ArrayList<Dish> options, String necessary){
         if (!necessary.equals("no")) {
             for (int a = 0; a < options.size(); a++){
-                if (!Arrays.asList(options.get(a).tags).contains(necessary) && !Arrays.asList(options.get(a).ingredients).contains(necessary) && options.size() == 1){
+                if (!Arrays.asList(options.get(a).tags).contains(necessary) && !Arrays.asList(options.get(a).ingredients).contains(necessary) && options.size() > 1){
                     options.remove(a);
                     a--;
                 }
@@ -109,7 +109,7 @@ public class Choice {
     public ArrayList<Dish> excludeUnwanted(ArrayList<Dish> options, String exclusion){
         if (!exclusion.equals("no")){
             for (int a = 0; a < options.size(); a++){
-                if (Arrays.asList(options.get(a).tags).contains(exclusion) || Arrays.asList(options.get(a).ingredients).contains(exclusion)){
+                if (Arrays.asList(options.get(a).tags).contains(exclusion) || Arrays.asList(options.get(a).ingredients).contains(exclusion) && options.size() > 1){
                     options.remove(a);
                     a--;
                 }
